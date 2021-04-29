@@ -815,6 +815,11 @@ Note that this may cause slow performance on larger networks.">
             .style("stroke-linejoin", "round")
             .style("opacity", opacity)
             .attr("d", groupPath);
+            d3.select('#network g.clusters').selectAll('path')
+           .call(d3.drag() //A bunch of mouse handlers.
+                .on('start', polygonDragStarted)
+                .on('drag', polygonDragged)
+                .on('end', polygonDragEnded));
       }      
       
       if(settings['polygons-show']) temp.polygonGroups = groups;
@@ -890,6 +895,59 @@ Note that this may cause slow performance on larger networks.">
     const radToDeg = 180 / Math.PI;
     function calcAngle(source, target) {
       return Math.atan((source.y - target.y) / (source.x - target.x)) * radToDeg;
+    }
+
+    let polygonNodeSelected = null;
+
+    function polygonDragStarted(n) {
+
+      session.data.nodes.forEach(sessionNode => {
+
+        let tempAry = n.values.filter(node => node._id == sessionNode._id);
+
+        if (tempAry.length > 0) {
+          sessionNode.selected = true
+          if(!polygonNodeSelected) {
+            polygonNodeSelected = sessionNode;
+          }
+        } else {
+          sessionNode.selected = false
+        }
+
+      });
+
+      $window.trigger('node-selected');
+
+      
+      if(polygonNodeSelected) {
+        dragstarted(polygonNodeSelected);
+      }
+
+    }
+
+    function polygonDragged(n) {
+
+      if(polygonNodeSelected) {
+        dragged(polygonNodeSelected);
+      }
+
+    }
+
+
+    function polygonDragEnded(n) {
+
+      if(polygonNodeSelected) {
+        dragended(polygonNodeSelected);
+      }
+
+      polygonNodeSelected = null;
+
+      session.data.nodes.forEach(sessionNode => {
+        sessionNode.selected = false
+      });
+
+      $window.trigger('node-selected');
+
     }
 
     let selected, multidrag = false;

@@ -626,6 +626,11 @@ button.btn,
 .nodes path {
   cursor: -webkit-grab;
 }
+
+.clusters path {
+  cursor: -webkit-grab;
+}
+
 .nodes path.selected {
   stroke: #ff8300;
   stroke-width: 4px;
