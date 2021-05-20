@@ -1224,16 +1224,147 @@ Note that this may cause slow performance on larger networks.">
           .domain([min, max])
           .range([minWidth, maxWidth]);
       }
-      nodes = svg.select('g.nodes').selectAll('g').data(session.network.nodes);
+      nodes = svg.select('g.nodes').selectAll('g').data(session.network.nodes).each(function (d) {
+             
+
+      });
+
+      let counter = 0
+        
       nodes.selectAll('path').each(function (d) {
+
+
+
         if (symbolVariable !== 'None') type = d3[temp.style.nodeSymbolMap(d[symbolVariable])];
         if (sizeVariable !== 'None') {
-          size = d[sizeVariable];
-          if (!isNumber(size)) size = med;
-          size = scale(size);
-        }
-        d3.select(this).attr('d', d3.symbol().size(size).type(type));          
-      });
+          if(d._id !== 'Basic Needs for Health & Safety' &&
+            d._id !== 'Thriving Natural World' &&
+            d._id !== 'Humane Housing' &&
+            d._id !== 'Meaningful Work & Wealth' &&
+            d._id !== 'Lifelong Learning' &&
+            d._id !== 'Reliable Transportation' &&
+            d._id !== 'Belonging & Civic Muscle' 
+          ) {
+              size = d[sizeVariable];
+              if (!isNumber(size)) size = med;
+              size = scale(size);
+              d3.select(this).attr('d', d3.symbol().size(size).type(type))
+            } else {
+              size = d[sizeVariable];
+              if (!isNumber(size)) size = med;
+              size = scale(size);
+
+              d3.select(this).attr('d', d3.symbol().size(size).type(type));
+
+              let box = d3.select(this).node().getBBox();
+
+              d3.select(this).attr('d', null);
+              console.log('box: ', box);
+
+              let newCount = 0;
+
+              svg.select('g.nodes').selectAll('g').data(session.network.nodes).each(function (d) {
+
+                if(newCount == counter) {
+
+                  let link = "";
+                  switch(d._id) {
+                    case "Basic Needs for Health & Safety":
+                      link = "/img/svg/Basic-Needs.svg";
+                    break;
+                    case "Thriving Natural World":
+                    link = "/img/svg/Thriving-Natural-World.svg";
+                    break;
+                    case "Humane Housing":
+                    link = "/img/svg/Humane-Housing.svg";
+                    break;
+                    case "Meaningful Work & Wealth":
+                    link = "/img/svg/Meaningful-Work-Wealth.svg";
+                    break;
+                    case "Lifelong Learning":
+                    link = "/img/svg/Lifelong-Learning.svg";
+                    break;
+                    case "Reliable Transportation":
+                    link = "/img/svg/Reliable-Transportation.svg";
+                    break;
+                    case "Belonging & Civic Muscle":
+                    link = "/img/svg/Belonging-Civic-Muscle.svg";
+                    break;
+                    default:
+
+                    break;
+                  }
+
+                  if (link !== "" ){
+                    
+                    if (symbolVariable !== 'None') type = d3[temp.style.nodeSymbolMap(d[symbolVariable])];
+                    if (sizeVariable !== 'None') {
+                      size = d[sizeVariable];
+                      if (!isNumber(size)) size = med;
+                      size = scale(size);
+
+                      let trans = "translate(-" + parseFloat(box.width) + ", -" + parseFloat(box.height) + ")";
+
+                      
+
+                      d3.select(this).append('image')
+                      .attr("xlink:href", link)
+                      .attr("width", box.width * 2)
+                      .attr("height", box.height * 2)
+                      .attr("transform", trans);
+
+                      
+
+                    }
+          
+                  }  
+
+                }
+
+                newCount = newCount + 1;
+
+
+              })
+
+            }
+
+              
+
+            
+              // let shape = d3.select(this).attr('d', d3.symbol().size(size).type(type));
+
+              // let box = d3.select(this).node().getBBox();
+              // d3.select(this).attr('width', '50').attr('height', '50');
+
+              // console.log('d isss: ', svg.select('g.nodes').selectAll('g')[0]);
+
+              // d3.select('g').append('image')
+              // .attr("xlink:href", "/img/svg/Belonging-Civic-Muscle.svg")
+              // .attr("transform", "translate(-80, -75)");
+
+
+              // console.log('this2: ', d3.select(this).select('g'));
+
+
+              // console.log('d node: ', d.node());
+
+              // d3.select(this).attr('height', box.height);
+
+              // d3.select(this).attr('d', null);
+              // console.log('item d: ', shape);
+              // console.log('bounding: ', d3.select(this).node().getBBox());
+              // console.log('width: ', shape.attr('width'));
+            }
+
+            counter = counter + 1;
+
+            
+
+          });
+
+        
+
+      // });
     }
 
     function redrawNodeBorder(){
@@ -1323,12 +1454,14 @@ Note that this may cause slow performance on larger networks.">
     });
 
     $('#node-symbol').on('input', function () {
+      console.log('change isss:');
       settings['node-symbol'] = this.value;
       redrawNodes();
     });
 
     $('#node-symbol-variable').on('change', function () {
       if($(this).find("option").length <= 1) return false;    
+      console.log('change isssds:');
       let variable = this.value;
       settings['node-symbol-variable'] = variable;
       let wrapper = $('#node-symbol-table-wrapper');
