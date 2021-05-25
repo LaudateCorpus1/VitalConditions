@@ -8,6 +8,8 @@ $(function() {
     $("#ie-warning").remove();
   }
 
+  console.log('update 1');
+
   // Before anything else gets done, ask the user to accept the legal agreement
   localforage.getItem("licenseAccepted").then(accepted => {
     if (!accepted) {
