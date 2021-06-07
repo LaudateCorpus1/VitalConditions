@@ -1993,7 +1993,7 @@ Note that this may cause slow performance on larger networks.">
     $("#polygon-color-table-wrapper").on("contextmenu", e => {
       e.preventDefault();
       $("#polygon-color-table-context").css({
-          top: e.clientY,
+          top: e.clientY - 60,
           left: e.clientX,
           display: "block"
         });
@@ -2017,7 +2017,7 @@ Note that this may cause slow performance on larger networks.">
       body.on("mousemove", e => {
         parent
           .css("top"  , parseFloat(parent.css("top"  )) + e.originalEvent.movementY + "px")
-          .css("right", parseFloat(parent.css("right")) - e.originalEvent.movementX + "px");
+          .css("left", parseFloat(parent.css("left")) + e.originalEvent.movementX + "px");
       });
       body.on("mouseup", () => body.off("mousemove").off("mouseup"));
     });
