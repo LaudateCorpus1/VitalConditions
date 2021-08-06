@@ -820,7 +820,8 @@ Note that this may cause slow performance on larger networks.">
                 .on('start', polygonDragStarted)
                 .on('drag', polygonDragged)
                 .on('end', polygonDragEnded));
-      }      
+      }  
+      
       
       if(settings['polygons-show']) temp.polygonGroups = groups;
       else delete temp.polygonGroups;
@@ -834,6 +835,11 @@ Note that this may cause slow performance on larger networks.">
       force.force('link').distance(settings['link-length']);
       force.alpha(0.3).alphaTarget(0).restart();
       console.log("Network render time:", (Date.now() - start).toLocaleString(), 'ms');
+
+      console.log('link opacity 2: ',1 - settings['link-opacity']);
+      svg.select('g.links').selectAll('line').data(vlinks)
+        .join('line')
+        .attr('opacity', 0.47);
     }
 
     function getVLinks() {
@@ -2402,6 +2408,12 @@ Note that this may cause slow performance on larger networks.">
     setTimeout(function () {
       updateColumns();
       $('#node-symbol-variable').trigger('change');
+      let vlinks = getVLinks();
+      let links = svg.select('g.links').selectAll('line').data(vlinks)
+        .join('line')
+        .attr('stroke-width', settings['link-width'])
+        .attr('opacity', 1 - settings['link-opacity'])
+      // $window.trigger("link-color-change");
       if (settings["node-radius-variable"] != 'None') $('#node-radius-variable').trigger('change');
       if (settings["link-width-variable"] != 'None') $('#link-width-variable').trigger('change');
       if (settings["polygons-show"]) $(".polygons-settings-row").slideDown();
