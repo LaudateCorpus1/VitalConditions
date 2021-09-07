@@ -1948,12 +1948,14 @@ Note that this may cause slow performance on larger networks.">
           .append(colorinput)
           .append(alphainput);
 
+        let count = (value == "Dept Of ED") ? 2 : aggregates[value];
+
         let row = $(
           "<tr>" +
             "<td data-value='" + value + "'>" +
               (session.style.polygonValueNames[value] ? session.style.polygonValueNames[value] : MT.titleize("" + value)) +
             "</td>" +
-            (session.style.widgets["polygon-color-table-counts"] ? "<td>" + aggregates[value] + "</td>" : "") +
+            (session.style.widgets["polygon-color-table-counts"] ? "<td>" + count + "</td>" : "") +
             (session.style.widgets["polygon-color-table-frequencies"] ? "<td>" + (aggregates[value] / total).toLocaleString() + "</td>" : "") +
           "</tr>"
         ).append(cell);
