@@ -832,8 +832,20 @@ Note that this may cause slow performance on larger networks.">
                 .data(groups)
                 .enter()
                 .append("text")
-                .attr('transform', function (d) { return "translate("+d3.polygonCentroid(polygonTextCord(d))+")"; })
-                .text(d => "" + d.key);
+                .attr('transform', function (d) { 
+                  if(d.key !== "Dept Of ED") {
+                    return "translate("+d3.polygonCentroid(polygonTextCord(d))+")"; 
+                  } else {
+                    let midX = (d.values[0].x + d.values[1].x)/2; 
+                    let midY = (d.values[0].y + d.values[1].y)/2; 
+                    return "translate("+ midX + "," + midY + ")"; 
+                  }
+                  
+                })
+                .text(d => (d.key !== "HHS" && 
+                d.key !== "DOT" && 
+                d.key !== "USDA" &&
+                d.key !== "HUD") ? MT.titleize("" + d.key) : d.key);
                 
                 d3.select('#network g.clustersLabels').selectAll('text').attr("class","WashingT")
                   .call(d3.drag()
