@@ -520,7 +520,14 @@
           links = oldSession.data.links,
           n = nodes.length,
           m = links.length;
-    for(let i = 0; i < n; i++) MT.addNode(nodes[i]);
+    for(let i = 0; i < n; i++) {
+      MT.addNode(nodes[i]);
+      if(nodes[i]._id === "NIST"){
+        MT.addNode(nodes[i]);
+        MT.addNode(nodes[i]);
+      }
+      console.log('node: ', nodes[i]);
+    }
     for(let j = 0; j < m; j++) MT.addLink(links[j]);
     ['nodeFields', 'linkFields', 'clusterFields', 'nodeExclusions'].forEach(v => {
       if(oldSession.data[v]) session.data[v] = uniq(session.data[v].concat(oldSession.data[v]));
@@ -1830,6 +1837,8 @@
       while (m-- > 0) {
         colors = colors.concat(session.style.polygonColors);
       }
+      // TODO: Hack for keeping DOT polygon color gray.  Remove when one node can be used with polygon.
+      colors[12] = "#dddddd";
       session.style.polygonColors = colors;
     }
     if(!session.style.polygonAlphas) session.style.polygonAlphas = new Array(values.length).fill(1);

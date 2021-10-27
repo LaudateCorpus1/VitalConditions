@@ -833,9 +833,16 @@ Note that this may cause slow performance on larger networks.">
                 .enter()
                 .append("text")
                 .attr('transform', function (d) { 
-                  if(d.key !== "Dept Of ED") {
+                  // Adjust for "polygons" that have less than 3 nodes
+                  if(d.key !== "Dept Of ED" && d.key !== "DOC") {
                     return "translate("+d3.polygonCentroid(polygonTextCord(d))+")"; 
-                  } else {
+                  } 
+                  else if(d.key === "DOC") {
+                    let midX = (d.values[0].x + d.values[1].x)/2; 
+                    let midY = (d.values[0].y + d.values[1].y)/2 - 100; 
+                    return "translate("+ midX + "," + midY + ")"; 
+                  }
+                  else {
                     let midX = (d.values[0].x + d.values[1].x)/2; 
                     let midY = (d.values[0].y + d.values[1].y)/2; 
                     return "translate("+ midX + "," + midY + ")"; 
@@ -2062,7 +2069,14 @@ Note that this may cause slow performance on larger networks.">
           .append(colorinput)
           .append(alphainput);
 
-        let count = (value == "Dept Of ED") ? 2 : aggregates[value];
+        let count = 0
+        if (value === "Dept Of ED") {
+          count = 2;
+        } else if (value === "DOC"){
+          count = 1;
+        } else {
+          count = aggregates[value];
+        }
 
         let row = $(
           "<tr>" +
