@@ -835,7 +835,13 @@ Note that this may cause slow performance on larger networks.">
                 .attr('transform', function (d) { 
                   return "translate("+d3.polygonCentroid(polygonTextCord(d))+")";         
                 })
-                .text(d => d.key);
+                .text(d => {
+                  if(d.key !== "Operating Division") {
+                    return d.key; 
+                  } else {
+                    return ""; 
+                  }
+                });
                 d3.select('#network g.clustersLabels').selectAll('text').attr("class","WashingT")
                   .call(d3.drag()
                   .on("start", polygonLabelDragStarted)
@@ -863,7 +869,7 @@ Note that this may cause slow performance on larger networks.">
       console.log('link opacity 2: ',1 - settings['link-opacity']);
       svg.select('g.links').selectAll('line').data(vlinks)
         .join('line')
-        .attr('opacity', 0.47);
+        .attr('opacity', 1 - settings['link-opacity']);
     }
 
     function polygonLabelDragStarted(d) {
