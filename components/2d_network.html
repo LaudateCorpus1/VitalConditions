@@ -652,7 +652,7 @@ Note that this may cause slow performance on larger networks.">
           .chosen('destroy')
           .html(
             session.data['nodeFields'].map((d, i) => {
-              return `<option value="${d}"${variables.includes(d) ? " selected" : ""}>${MT.titleize(d)}</option>`
+              return `<option value="${d}"${variables.includes(d) ? " selected" : ""}>${d}</option>`
             }).join('\n')
           )
           .chosen({'width': 'inherit', 'max_selected_options': 3});
@@ -835,11 +835,7 @@ Note that this may cause slow performance on larger networks.">
                 .attr('transform', function (d) { 
                   return "translate("+d3.polygonCentroid(polygonTextCord(d))+")";         
                 })
-                .text(d => (d.key !== "HHS" && 
-                d.key !== "DOT" && 
-                d.key !== "USDA" &&
-                d.key !== "HUD") ? MT.titleize("" + d.key) : d.key);
-                
+                .text(d => d.key);
                 d3.select('#network g.clustersLabels').selectAll('text').attr("class","WashingT")
                   .call(d3.drag()
                   .on("start", polygonLabelDragStarted)
@@ -1084,7 +1080,7 @@ Note that this may cause slow performance on larger networks.">
         let nd = session.data.nodes.find(nd => nd._id == d._id);
         for (let attribute in nd) {
           if (attribute[0] == '_') continue;
-          target.append(`<tr><td><strong>${MT.titleize(attribute)}</strong></td><td>${d[attribute]}</td></tr>`);
+          target.append(`<tr><td><strong>${attribute}</strong></td><td>${d[attribute]}</td></tr>`);
         }
         $('#network-attribute-modal').modal('show');
       }).node().focus();
@@ -1128,7 +1124,7 @@ Note that this may cause slow performance on larger networks.">
         for(let item of variables){
           if('' == item) continue;
           let arrayItem = [];
-          arrayItem.push(MT.titleize(item));
+          arrayItem.push(item);
           arrayItem.push(d[item]);
           data.push(arrayItem);
         }        
@@ -1646,7 +1642,7 @@ Note that this may cause slow performance on larger networks.">
       }
       
       temp.style.nodeSymbolMap = d3.scaleOrdinal(nodeSymbols).domain(values);
-      let nodeSymbolHeaderTitle =  (session.style.overwrite && session.style.overwrite.nodeSymbolHeaderTitle ? session.style.overwrite.nodeSymbolHeaderTitle : "Node " + MT.titleize(variable));
+      let nodeSymbolHeaderTitle =  (session.style.overwrite && session.style.overwrite.nodeSymbolHeaderTitle ? session.style.overwrite.nodeSymbolHeaderTitle : "Node " + variable);
       table.empty().append(
         '<tr>' +
         '<th class="p-1" contenteditable>' + nodeSymbolHeaderTitle + '</th>' +
@@ -1670,7 +1666,7 @@ Note that this may cause slow performance on larger networks.">
         let cell = $('<td></td>').append(selector);
         let row = $(
           '<tr>' +
-          '<td contenteditable>' + MT.titleize('' + v) + '</td>' +
+          '<td contenteditable>' + ('' + v) + '</td>' +
           (settings['node-symbol-table-counts'] ? ('<td>' + aggregates[v] + '</td>') : '') +
           (settings['node-symbol-table-frequencies'] ? ('<td>' + (aggregates[v] / vnodes).toLocaleString() + '</td>') : '') +
           '</tr>'
@@ -1988,7 +1984,7 @@ Note that this may cause slow performance on larger networks.">
           session.style.widgets["polygon-color-table-name-sort"] = "ASC"
           updatePolygonColors();
       });
-      let polygonColorHeaderTitle =  (session.style.overwrite && session.style.overwrite.polygonColorHeaderVariable == settings['polygons-foci'] ? session.style.overwrite.polygonColorHeaderTitle : "Polygon " + MT.titleize(settings['polygons-foci']));
+      let polygonColorHeaderTitle =  (session.style.overwrite && session.style.overwrite.polygonColorHeaderVariable == settings['polygons-foci'] ? session.style.overwrite.polygonColorHeaderTitle : "Polygon " + settings['polygons-foci']);
       let polygonHeader = $("<th class='p-1' contenteditable>" + polygonColorHeaderTitle + "</th>").append(polygonSort);
       let countSort = $("<a style='cursor: pointer;'>&#8645;</a>").on("click", e => {
 
@@ -2248,7 +2244,7 @@ Note that this may cause slow performance on larger networks.">
       columns.push('Color');
       var data = [];
       values.forEach((value, i) => {
-        let nodeValue =  (session.style.nodeValueNames[value] ? session.style.nodeValueNames[value] : MT.titleize("" + value));
+        let nodeValue =  (session.style.nodeValueNames[value] ? session.style.nodeValueNames[value] : ("" + value));
         let tableCounts = (session.style.widgets["node-color-table-counts"] ?  aggregates[value] : undefined);
         let tableFreq = (session.style.widgets["node-color-table-frequencies"] ? (aggregates[value] / vnodes.length).toLocaleString() : undefined);
         let line = {
@@ -2272,7 +2268,7 @@ Note that this may cause slow performance on larger networks.">
       columns.push('Color');
       data = [];
       values.forEach((value, i) => {
-        let nodeValue =  (session.style.linkValueNames[value] ? session.style.linkValueNames[value] : MT.titleize("" + value));
+        let nodeValue =  (session.style.linkValueNames[value] ? session.style.linkValueNames[value] : "" + value);
         let tableCounts = (session.style.widgets["link-color-table-counts"] ?  aggregates[value] : undefined);
         let tableFreq = (session.style.widgets["link-color-table-frequencies"] ? (aggregates[value] / vlinks.length).toLocaleString() : undefined);
         let line = {

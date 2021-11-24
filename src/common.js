@@ -1192,26 +1192,26 @@
     };
 
     $("#search-field")
-      .html(session.data.nodeFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n"))
+      .html(session.data.nodeFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n"))
       .val(session.style.widgets["search-field"]);
     $("#search-form").css("display", "flex");
     $("#link-sort-variable")
-      .html(session.data.linkFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n"))
+      .html(session.data.linkFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n"))
       .val(session.style.widgets["link-sort-variable"]);
     $("#node-color-variable")
       .html(
         "<option selected>None</option>" +
-        session.data.nodeFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n"))
+        session.data.nodeFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n"))
       .val(session.style.widgets["node-color-variable"]);
     $("#node-timeline-variable")
       .html(
         "<option selected>None</option>" +
-        session.data.nodeFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n"))
+        session.data.nodeFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n"))
         .val(session.style.widgets["node-timeline-variable"]);
     $("#link-color-variable")
       .html(
         "<option>None</option>" +
-        session.data.linkFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n"))
+        session.data.linkFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n"))
       .val(session.style.widgets["link-color-variable"]);
     try {
       MT.updateThresholdHistogram();
@@ -1940,20 +1940,20 @@
       }
       contentItem.element.find("select.nodeVariables").html(
         "<option>None</option>" +
-        session.data.nodeFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n")
+        session.data.nodeFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n")
       );
       contentItem.element.find("select.linkVariables").html(
         "<option>None</option>" +
-        session.data.linkFields.map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n")
+        session.data.linkFields.map(field => '<option value="' + field + '">' + field + "</option>").join("\n")
       );
       contentItem.element.find("select.mixedVariables").html(
         "<option>None</option>" +
-        session.data.linkFields.map(field => '<option value="links-' + field + '">Links ' + MT.titleize(field) + "</option>").join("\n") +
-        session.data.nodeFields.map(field => '<option value="nodes-' + field + '">Nodes ' + MT.titleize(field) + "</option>").join("\n")
+        session.data.linkFields.map(field => '<option value="links-' + field + '">Links ' + field + "</option>").join("\n") +
+        session.data.nodeFields.map(field => '<option value="nodes-' + field + '">Nodes ' + field + "</option>").join("\n")
       );
       contentItem.element.find("select.branch-variables").html(
         "<option>None</option>" +
-        ["id", "depth", "height", "length", "value"].map(field => '<option value="' + field + '">' + MT.titleize(field) + "</option>").join("\n")
+        ["id", "depth", "height", "length", "value"].map(field => '<option value="' + field + '">' + field + "</option>").join("\n")
       );
       contentItem.element.find(".launch-color-options").click(() => {
         $("#style-tab").tab("show");
@@ -2096,7 +2096,7 @@
         if (pas[key]) return;
         pas[key] = {
           label: key,
-          type: MT.titleize(typeof d[key])
+          type: typeof d[key]
         };
       });
     });
