@@ -422,6 +422,10 @@ $(function() {
     MT.updateStatistics();
   });
 
+  $("#RevealAllTab").on("click", () => {
+
+  });
+
   MT.tabulate = (data, columns, wrapper, container) => {
     let foreignObj = d3.select(container).append("svg:foreignObject")
       .attr("x", wrapper.offsetLeft)
@@ -1332,6 +1336,7 @@ $(function() {
   }
   
   $("#recall-load-view").on("click", () => {
+    $('#SettingsTab').show()
     let key = viewTable.getSelectedData()[0].fullname;
     $.getJSON(key, MT.applySession);
     $("#session-recall-view-modal").modal("hide");    
