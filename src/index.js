@@ -10,19 +10,6 @@ $(function() {
 
   console.log('update 1');
 
-  // Before anything else gets done, ask the user to accept the legal agreement
-  localforage.getItem("licenseAccepted").then(accepted => {
-    if (!accepted) {
-      $("#acceptAgreement").on("click", () => {
-        localforage.setItem("licenseAccepted", new Date());
-      });
-      $("#licenseAgreement").modal({
-        backdrop: "static",
-        keyboard: false
-      });
-    }  
-  })
-
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(error => {
       console.error("Service Worker Registration failed with " + error);
