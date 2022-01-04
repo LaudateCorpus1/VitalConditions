@@ -557,6 +557,10 @@ button.btn,
   left: inherit;
 }
 
+#session-recall-view-modal {
+  top: 250px;
+}
+
 #global-timeline-wrapper {
   /* background: #f8f9fa; */
   border-top: 1px solid rgba(0, 0, 0, 0.1);
