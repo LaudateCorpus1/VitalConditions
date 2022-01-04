@@ -2139,7 +2139,12 @@ Note that this may cause slow performance on larger networks.">
       body.on("mouseup", () => body.off("mousemove").off("mouseup"));
     });
 
-    $("#polygon-color-table-context-hide").on("click", () => $("#polygon-color-table-hide").parent().trigger('click'));
+    $("#polygon-color-table-context-hide").on("click", function () {
+      $("#polygon-color-table-hide")
+        .parent()
+        .click();
+      $(this).parent().hide();
+    });
 
     $("#polygon-color-table-expand").on("click", function() {
       let $this = $(this);

@@ -45,8 +45,8 @@
   <nav class="navbar fixed-top navbar-expand-xl navbar-light bg-light">
     <ul class="nav mr-auto"> 
       <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle py-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File</a>
-        <div class="dropdown-menu">
+        <!-- <a href="#" class="nav-link dropdown-toggle py-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File</a>
+        <div class="dropdown-menu"> -->
           <!--
           <a href="#" id="StashDataTab" class="dropdown-item" data-toggle="modal" data-target="#session-stash-modal">Stash</a>
           <a href="#" id="RecallDataTab" class="dropdown-item">Recall</a>
@@ -55,11 +55,11 @@
           <label class="dropdown-item" for="OpenTab">Open</label><input type="file" class="d-none" id="OpenTab">
           <div class="dropdown-divider"></div>
           -->        
-          <a href="#" id="AddDataTab" class="dropdown-item">Add Data</a>
+          <!-- <a href="#" id="AddDataTab" class="dropdown-item">Add Data</a> -->
           <!--
           <a href="#" id="NewTab" class="dropdown-item">New</a>
           -->
-        </div>
+        <!-- </div> -->
       </li>
   <!--
       <li class="nav-item">
@@ -116,9 +116,9 @@
         <a href="#" class="nav-link dropdown-toggle py-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tips For Use</a>
       </li> -->
       <li class="nav-item">
-        <a href="#" id="SettingsTab" class="nav-link py-0" data-toggle="modal" data-target="#global-settings-modal">Tips for Use</a>
+        <a href="#" id="SettingsTab" class="nav-link py-0" data-toggle="modal" data-target="#tips-modal">Tips for Use</a>
       </li>
-      <li><span id="development-version" style="margin-left: 40px; color: #0037ff; font-weight: bolder; font-size: x-small;"> non production environment </span></li>
+      <!-- <li><span id="development-version" style="margin-left: 40px; color: #0037ff; font-weight: bolder; font-size: x-small;"> non production environment </span></li> -->
 
     </ul>
     <div id="search-form" class="form-inline navbar-form">
@@ -263,7 +263,7 @@ performance of this software.</pre>
     <input type="range" class="custom-range" id="color-transparency" min="0" max="1" step="0.05" value="1">
   </div>
 
-  <div id="network-statistics-wrapper" class="floater">
+  <!-- <div id="network-statistics-wrapper" class="floater">
     <div id="network-statistics-draghandle"><span class="oi oi-move"></span></div>
     <table id="network-statistics-table">
       <tr>
@@ -286,7 +286,7 @@ performance of this software.</pre>
         <td>Singletons</td>
       </tr>
     </table>
-  </div>
+  </div> -->
 
   <div id="network-statistics-context" class="dropdown-menu">
     <a href="#" id="moveStats" class="dropdown-item">Drag</a>
@@ -296,6 +296,205 @@ performance of this software.</pre>
   <span id="tooltip"></span>
 
   <div id="global-settings-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Global Settings</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item active">
+              <a class="nav-link active" id="filtering-tab" data-toggle="tab" href="#filtering-config" role="tab" aria-controls="home" aria-selected="true">Filtering</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="style-tab" data-toggle="tab" href="#style-config" role="tab" aria-controls="home" aria-selected="true">Styling</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="timeline-tab" data-toggle="tab" href="#timeline-config" role="tab" aria-controls="home" aria-selected="true">Timeline</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="filtering-config" role="tabpanel" aria-labelledby="filtering-tab">
+              <div class="form-group row" title="By what algorithm would you like to prune links from the network?">
+                <div class="col-4">Prune With</div>
+                <div class="col-8">
+                  <div class="btn-group btn-group-toggle btn-group-sm w-100" data-toggle="buttons">
+                    <label class="btn btn-light active col" title="Show all links within threshold">
+                      <input type="radio" name="NNOptions" id="link-show-all" autocomplete="off" checked> None
+                    </label>
+                    <label class="btn btn-light col" title="Prune links by Nearest Neighbor">
+                      <input type="radio" name="NNOptions" id="link-show-nn" autocomplete="off"> Nearest Neighbor
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="filtering-epsilon-row" class="form-group row" title="How much genetic distance represents non-equality for your ">
+                <div class="col-4"><label for="filtering-epsilon">Filtering Epsilon</label></div>
+                <div class="col-8">
+                  <input type="range" class="custom-range" id="filtering-epsilon" min="-3" max="2" step=".01" value="-3">
+                </div>
+                <div class="col-8 offset-4">
+                  <input type="number" id="filtering-epsilon-copy" class="form-control form-control-sm" disabled>
+                </div>
+              </div>
+              <div class="form-group row" title="What's the minimum number of nodes a cluster must have in order to be visible?">
+                <div class="col-4">
+                  <label for="cluster-minimum-size">Minimum Cluster Size</label>
+                </div>
+                <div class="col-8">
+                  <input type="number" class="form-control form-control-sm" id="cluster-minimum-size" min="1" value="1" step="1">
+                </div>
+              </div>
+              <div id="filtering-wrapper">
+                <div class="form-group row" title="By what variable would you like to prune links from the network?">
+                  <div class="col-4"><label for="link-sort-variable">Filter Links on</label></div>
+                  <div class="col-8">
+                    <select id="link-sort-variable" class="form-control form-control-sm linkVariables">
+                      <option value="distance" selected>Distance</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row" title="What's the maximum genetic distance you're willing to call a link?">
+                  <div class="col-4"><label for="link-threshold">Filtering Threshold</label></div>
+                  <div class="col-8"><svg id="link-threshold-sparkline"></svg></div>
+                  <div class="col-8 offset-4">
+                    <input type="number" class="form-control form-control-sm" id="link-threshold" step="0.001">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row" title="Click to reveal all hidden elements of the network.">
+                <div class="col-4"><label for="RevealAllTab">Reveal</label></div>
+                <div class="col-8">
+                  <button id="RevealAllTab" type="button" class="btn btn-light btn-sm w-100">Everything</button>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row" title="Display a table of overview statistics for the network">
+                <div class="col-4">Statistics</div>
+                <div class="col-8">
+                  <div class="btn-group btn-group-toggle btn-group-sm w-100" data-toggle="buttons">
+                    <label class="btn btn-light active col" title="Show a table of overview statistics for the network">
+                      <input type="radio" name="network-statistics-visibility" id="network-statistics-show" autocomplete="off" checked>
+                      Show
+                    </label>
+                    <label class="btn btn-light col" title="Do not show a table of overview statistics for the network">
+                      <input type="radio" name="network-statistics-visibility" id="network-statistics-hide" autocomplete="off">
+                      Hide
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="style-config" role="tabpanel" aria-labelledby="style-tab">
+              <div class="form-group row" title="By what variable nodes be colored?">
+                <div class="col-4"><label for="node-color-variable">Color Nodes By</label></div>
+                <div class="col-8">
+                  <select id="node-color-variable" class="form-control form-control-sm nodeVariables">
+                    <option>None</option>
+                  </select>
+                </div>
+              </div>
+              <div id="node-color-table-row" class="form-group row" title="Should MicrobeTrace display the table of colors?">
+                <div class="col-4">Node Color Table</div>
+                <div class="col-8">
+                  <div class="btn-group btn-group-toggle btn-group-sm w-100" data-toggle="buttons">
+                    <label class="btn btn-light active col">
+                      <input type="radio" name="nodeColorTableShowHide" id="node-color-table-show" autocomplete="off" checked>
+                      Show
+                    </label>
+                    <label class="btn btn-light col">
+                      <input type="radio" name="nodeColorTableShowHide" id="node-color-table-hide" autocomplete="off">
+                      Hide
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="node-color-value-row" class="form-group row" title="What color should the nodes be?">
+                <div class="col-4"><label for="node-color">Nodes</label></div>
+                <div class="col-8">
+                  <input type="color" id="node-color" class="form-control form-control-sm" value="#1f77b4">
+                </div>
+              </div>
+              <div class="form-group row" title="What color should the node border be?">
+                <div class="col-4"><label for="node-color-border">Node Border</label></div>
+                <div class="col-8">
+                  <input type="color" id="node-color-border" class="form-control form-control-sm" value="#000000">
+                </div>
+              </div>
+              <div class="form-group row" title="By what variable should links be colored?">
+                <div class="col-4"><label for="link-color-variable">Color Links By</label></div>
+                <div class="col-8">
+                  <select id="link-color-variable" class="form-control form-control-sm linkVariables">
+                    <option>None</option>
+                  </select>
+                </div>
+              </div>
+              <div id="link-color-table-row" class="form-group row" title="Should MicrobeTrace display the table of colors?">
+                <div class="col-4">Link Color Table</div>
+                <div class="col-8">
+                  <div class="btn-group btn-group-toggle btn-group-sm w-100" data-toggle="buttons">
+                    <label class="btn btn-light active col">
+                      <input type="radio" name="linkColorTableShowHide" id="link-color-table-show" autocomplete="off" checked>
+                      Show
+                    </label>
+                    <label class="btn btn-light col">
+                      <input type="radio" name="linkColorTableShowHide" id="link-color-table-hide" autocomplete="off">
+                      Hide
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="link-color-value-row" class="form-group row" title="What color should the links be?">
+                <div class="col-4"><label for="link-color">Links</label></div>
+                <div class="col-8">
+                  <input type="color" id="link-color" class="form-control form-control-sm" value="#a6cee3">
+                </div>
+              </div>
+              <div class="form-group row" title="What color should denote selection?">
+                <div class="col-4"><label for="selected-color">Selected</label></div>
+                <div class="col-8">
+                  <input type="color" id="selected-color" class="form-control form-control-sm" value="#ff8300">
+                </div>
+              </div>
+              <div class="form-group row" title="What color should the background be?">
+                <div class="col-4"><label for="background-color">Background</label></div>
+                <div class="col-8">
+                  <input type="color" id="background-color" class="form-control form-control-sm" value="#ffffff">
+                </div>
+              </div>
+              <div class="form-group row" title="Load an existing MicrobeTrace style file">
+                <div class="col-4">Apply Style</div>
+                <div class="col-8">
+                  <input type="file" id="apply-style" class="d-none">
+                  <label class="custom-file-label" for="apply-style">Choose MicrobeTrace Style File</label>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="timeline-config" role="tabpanel" aria-labelledby="timeline-tab">
+              <div class="form-group row" title="By what variable timeline applied?">
+                <div class="col-4"><label for="node-timeline-variable">Timeline By</label></div>
+                <div class="col-8">
+                  <select id="node-timeline-variable" class="form-control form-control-sm nodeVariables">
+                    <option>None</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group" data-toggle="buttons">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="tips-modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false">
     <div class="modal-dialog tips" role="document">
       <div class="modal-content">
         <div class="modal-header">
